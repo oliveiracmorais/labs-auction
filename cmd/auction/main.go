@@ -2,20 +2,21 @@ package main
 
 import (
 	"context"
-	"fullcycle-auction_go/configuration/database/mongodb"
-	"fullcycle-auction_go/internal/infra/api/web/controller/auction_controller"
-	"fullcycle-auction_go/internal/infra/api/web/controller/bid_controller"
-	"fullcycle-auction_go/internal/infra/api/web/controller/user_controller"
-	"fullcycle-auction_go/internal/infra/database/auction"
-	"fullcycle-auction_go/internal/infra/database/bid"
-	"fullcycle-auction_go/internal/infra/database/user"
-	"fullcycle-auction_go/internal/usecase/auction_usecase"
-	"fullcycle-auction_go/internal/usecase/bid_usecase"
-	"fullcycle-auction_go/internal/usecase/user_usecase"
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/oliveiracmorais/labs-auction/configuration/database/mongodb"
+	"github.com/oliveiracmorais/labs-auction/internal/infra/api/web/controller/auction_controller"
+	"github.com/oliveiracmorais/labs-auction/internal/infra/api/web/controller/bid_controller"
+	"github.com/oliveiracmorais/labs-auction/internal/infra/api/web/controller/user_controller"
+	"github.com/oliveiracmorais/labs-auction/internal/infra/database/auction"
+	"github.com/oliveiracmorais/labs-auction/internal/infra/database/bid"
+	"github.com/oliveiracmorais/labs-auction/internal/infra/database/user"
+	"github.com/oliveiracmorais/labs-auction/internal/usecase/auction_usecase"
+	"github.com/oliveiracmorais/labs-auction/internal/usecase/bid_usecase"
+	"github.com/oliveiracmorais/labs-auction/internal/usecase/user_usecase"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 func main() {
@@ -53,6 +54,7 @@ func initDependencies(database *mongo.Database) (
 	auctionController *auction_controller.AuctionController) {
 
 	auctionRepository := auction.NewAuctionRepository(database)
+	auctionRepository.StartAuctionMonitor(context.Background())
 	bidRepository := bid.NewBidRepository(database, auctionRepository)
 	userRepository := user.NewUserRepository(database)
 

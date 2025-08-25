@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"fullcycle-auction_go/configuration/logger"
-	"fullcycle-auction_go/internal/entity/user_entity"
-	"fullcycle-auction_go/internal/internal_error"
+
+	"github.com/oliveiracmorais/labs-auction/configuration/logger"
+	"github.com/oliveiracmorais/labs-auction/internal/entity/user_entity"
+	"github.com/oliveiracmorais/labs-auction/internal/internal_error"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -34,9 +35,9 @@ func (ur *UserRepository) FindUserById(
 	err := ur.Collection.FindOne(ctx, filter).Decode(&userEntityMongo)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
-			logger.Error(fmt.Sprintf("User not found with this id = %d", userId), err)
+			logger.Error(fmt.Sprintf("User not found with this id = %s", userId), err)
 			return nil, internal_error.NewNotFoundError(
-				fmt.Sprintf("User not found with this id = %d", userId))
+				fmt.Sprintf("User not found with this id = %s", userId))
 		}
 
 		logger.Error("Error trying to find user by userId", err)

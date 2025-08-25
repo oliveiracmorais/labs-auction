@@ -3,12 +3,13 @@ package bid
 import (
 	"context"
 	"fmt"
-	"fullcycle-auction_go/configuration/logger"
-	"fullcycle-auction_go/internal/entity/bid_entity"
-	"fullcycle-auction_go/internal/internal_error"
+	"time"
+
+	"github.com/oliveiracmorais/labs-auction/configuration/logger"
+	"github.com/oliveiracmorais/labs-auction/internal/entity/bid_entity"
+	"github.com/oliveiracmorais/labs-auction/internal/internal_error"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 func (bd *BidRepository) FindBidByAuctionId(
@@ -50,7 +51,7 @@ func (bd *BidRepository) FindWinningBidByAuctionId(
 	filter := bson.M{"auction_id": auctionId}
 
 	var bidEntityMongo BidEntityMongo
-	opts := options.FindOne().SetSort(bson.D{{"amount", -1}})
+	opts := options.FindOne().SetSort(bson.D{{Key: "amount", Value: -1}})
 	if err := bd.Collection.FindOne(ctx, filter, opts).Decode(&bidEntityMongo); err != nil {
 		logger.Error("Error trying to find the auction winner", err)
 		return nil, internal_error.NewInternalServerError("Error trying to find the auction winner")
