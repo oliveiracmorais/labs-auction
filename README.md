@@ -43,3 +43,8 @@ docker-compose up -d monbodb
 ```bash
 go test -v ./internal/infra/database/auction -run TestCreateAuction_ClosesAutomatically
 ```
+
+
+### Observação:
+
+#### os testes foram realizados utilizando o SO Ubuntu 22.04

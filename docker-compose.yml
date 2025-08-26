@@ -9,7 +9,6 @@ services:
       - "8080:8080"
     env_file:
       - cmd/auction/.env
-    command: sh -c "/auction"
     networks:
       - localNetwork
 
@@ -18,22 +17,14 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=secret
       - MONGO_INITDB_DATABASE=test_auction
-    env_file:
-      - cmd/auction/.env
     volumes:
       - ./data/mongodb:/data/db
     networks:
       - localNetwork
-
-volumes:
-  mongo-data:
-    driver: local
 
 networks:
   localNetwork:
