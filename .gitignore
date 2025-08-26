@@ -1,0 +1,15 @@
+# Pastas de dados
+/data/mongodb/
+/data/db/
+*.log
+*.tmp
+
+# Environments
+.env
+*.env.local
+
+# Go
+bin/
+pkg/
+*.exe
+*.log
