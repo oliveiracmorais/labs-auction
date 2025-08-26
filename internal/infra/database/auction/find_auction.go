@@ -27,8 +27,8 @@ func (ar *AuctionRepository) FindAuctionById(
 		ProductName: auctionEntityMongo.ProductName,
 		Category:    auctionEntityMongo.Category,
 		Description: auctionEntityMongo.Description,
-		Condition:   auctionEntityMongo.Condition,
-		Status:      auctionEntityMongo.Status,
+		Condition:   auction_entity.ProductCondition(auctionEntityMongo.Condition),
+		Status:      auction_entity.AuctionStatus(auctionEntityMongo.Status),
 		Timestamp:   time.Unix(auctionEntityMongo.Timestamp, 0),
 	}, nil
 }
@@ -71,9 +71,9 @@ func (repo *AuctionRepository) FindAuctions(
 			Id:          auction.Id,
 			ProductName: auction.ProductName,
 			Category:    auction.Category,
-			Status:      auction.Status,
+			Status:      auction_entity.AuctionStatus(auction.Status),
 			Description: auction.Description,
-			Condition:   auction.Condition,
+			Condition:   auction_entity.ProductCondition(auction.Condition),
 			Timestamp:   time.Unix(auction.Timestamp, 0),
 		})
 	}
